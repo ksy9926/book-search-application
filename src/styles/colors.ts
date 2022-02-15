@@ -1,0 +1,17 @@
+export const COLOR_PALETTE = {
+  // MAIN COLOR
+  BLUE500: '#EAF3FE',
+  BLUE900: '#4880EE',
+
+  // SUB COLOR
+
+  // GRAY COLOR
+  GRAY100: '#F2F4F6',
+  GRAY500: '#8D94A0',
+  GRAY700: '#6D7582',
+  GRAY900: '#353C49',
+  BLACK: '#000',
+  WHITE: '#FFF',
+};
+
+export default COLOR_PALETTE;
