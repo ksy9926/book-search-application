@@ -1,46 +1,84 @@
-# Getting Started with Create React App
+# 30COS Books
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+네이버 API를 이용한 책 검색 어플리케이션
 
-## Available Scripts
+<br />
 
-In the project directory, you can run:
+## 🗂 목차
 
-### `npm start`
+- [**프로젝트 소개**](#1)
+- [**기술 스택**](#2)
+- [**주요 기능**](#3)
+- [**웹서비스 소개**](#4)
+- [**개발 기간**](#5)
+- [**실행 방법**](#6)
+- [**참고 사이트**](#7)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<div id='1'></div>
+<br />
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 💁‍♂️ 프로젝트 소개
 
-### `npm test`
+-
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<div id='2'></div>
+<br />
 
-### `npm run build`
+### 🛠 기술 스택
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. typescript, react, styled-components, react-query
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<div id='3'></div>
+<br />
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 💡 주요 기능
 
-### `npm run eject`
+- 기능1
+- 기능2
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<div id='4'></div>
+<br />
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### ⭐️ 웹서비스 소개
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+|   페이지 1 & 기능 1   |
+| :-------------------: |
+| <img src='' alt='' /> |
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<div id='5'></div>
+<br />
 
-## Learn More
+### 🗓 개발 기간
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`2022.02.16(수) ~ 2022.02.17(목)`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<div id='6'></div>
+<br />
+
+### 🖥 실행 방법
+
+1. 저장소 복제
+
+```bash
+git clone https://github.com/ksy9926/book-search-application.git
+```
+
+2. 폴더 이동 및 패키지 설치
+
+```bash
+cd book-search-application
+yarn install
+```
+
+3. 실행
+
+```bash
+yarn start
+```
+
+<div id='7'></div>
+<br />
+
+### 📌 참고 사이트
+
+-
