@@ -1,1 +1,0 @@
-export const APP_TITLE: string = '30COS Books'
