@@ -1,8 +1,24 @@
 import styled from 'styled-components'
 import COLOR_PALETTE from 'styles/colors'
 import { APP_TITLE } from 'constants/constants'
+import { useQuery, useQueryClient } from 'react-query'
+import { fetchBooksInfo } from 'apis/api'
+import { useEffect } from 'react'
 
 const Header = () => {
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await fetchBooksInfo()
+      console.log('res: ', res)
+    })()
+  }, [])
+
+  // const query = useQuery('todos', fetchBooksInfo)
+
+  // console.log('query', query)
+
   return (
     <HeaderWrap>
       <HeaderInnerWrap>
