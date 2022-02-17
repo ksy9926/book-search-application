@@ -7,12 +7,14 @@ export const COLOR_PALETTE = {
 
   // GRAY COLOR
   GRAY100: '#F2F4F6',
+  GRAY200: '#D2D6DA',
   GRAY300: '#8D94A0',
   GRAY500: '#6D7582',
   GRAY700: '#353C49',
+  GRAY800: '#222222',
   GRAY900: '#1A1E27',
   BLACK: '#000',
   WHITE: '#FFF',
-};
+}
 
-export default COLOR_PALETTE;
+export default COLOR_PALETTE

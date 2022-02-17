@@ -26,7 +26,7 @@
 
 ### 🛠 기술 스택
 
-1. typescript, react, styled-components, react-query
+1. typescript, react, redux, react-query, styled-components
 
 <div id='3'></div>
 <br />
@@ -81,4 +81,6 @@ yarn start
 
 ### 📌 참고 사이트
 
--
+- [react-query 공식문서](https://react-query.tanstack.com/)
+- [react-query 사용법 familyman80.log velog](https://velog.io/@familyman80/React-Query-%ED%95%9C%EA%B8%80-%EB%A9%94%EB%89%B4%EC%96%BC)
+- [stack overflow dropdown center](https://stackoverflow.com/questions/38419705/position-dropdown-button-and-dropdown-menu-in-center)

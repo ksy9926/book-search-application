@@ -3,6 +3,7 @@ import { RootState } from 'redux/reducers'
 import styled from 'styled-components'
 import Search from 'components/Search'
 import Books from 'components/Books'
+import BooksNone from 'components/BooksNone'
 
 const Main = () => {
   const { searchState } = useSelector((state: RootState) => state.search)
@@ -10,7 +11,7 @@ const Main = () => {
   return (
     <MainWrap>
       <Search />
-      {searchState ? <Books /> : <div>검색된 결과가 없습니다.</div>}
+      {searchState ? <Books /> : <BooksNone />}
     </MainWrap>
   )
 }
@@ -18,6 +19,6 @@ const Main = () => {
 export default Main
 
 const MainWrap = styled.main`
-  margin: 80px auto 0;
+  margin: 160px auto 0;
   max-width: 1130px;
 `
