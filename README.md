@@ -25,7 +25,7 @@
 
 ### 🛠 기술 스택
 
-1. typescript, react, redux, react-query, styled-components
+- typescript, react, redux, react-query, styled-components
 
 <div id='3'></div>
 <br />
