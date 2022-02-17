@@ -4,14 +4,24 @@ import styled from 'styled-components'
 import Search from 'components/Search'
 import Books from 'components/Books'
 import BooksNone from 'components/BooksNone'
+import BooksDetailSearch from 'components/BooksDetailSearch'
 
 const Main = () => {
-  const { searchState } = useSelector((state: RootState) => state.search)
+  const search = useSelector((state: RootState) => state.search)
+  const { searchState, isDetail } = search
 
   return (
     <MainWrap>
       <Search />
-      {searchState ? <Books /> : <BooksNone />}
+      {searchState ? (
+        isDetail ? (
+          <BooksDetailSearch />
+        ) : (
+          <Books />
+        )
+      ) : (
+        <BooksNone />
+      )}
     </MainWrap>
   )
 }

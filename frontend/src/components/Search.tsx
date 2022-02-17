@@ -16,6 +16,8 @@ const Search = () => {
     title: '',
     author: '',
     publisher: '',
+    page: 1,
+    isDetail: false,
   })
   const [detailState, setDetailState] = useState(false)
   const [filterState, setFilterState] = useState([
@@ -26,11 +28,15 @@ const Search = () => {
 
   const searchHandler = useCallback(() => {
     if (values.query.trim() !== '') {
-      dispatch(setSearchValue(values.query))
+      dispatch(setSearchValue({ ...values, isDetail: false }))
       setDetailState(false)
     } else {
       alert('검색어가 비어있거나 공백입니다!')
     }
+  }, [values])
+
+  const detailSearchHandler = useCallback(async () => {
+    dispatch(setSearchValue({ ...values, isDetail: true }))
   }, [values])
 
   const onFocusHandler = useCallback((): void => {
@@ -55,6 +61,26 @@ const Search = () => {
     })
     setFilterState([{ value: DETAIL_FILTER.title, isClosed: true }])
   }, [values])
+
+  const filterChecker = (idx: number) => {}
+
+  const onDetailHandler = useCallback(
+    (e, idx: number) => {
+      const newValues = { ...values }
+      console.log(filterState[idx].value)
+      if (filterState[idx].value === DETAIL_FILTER.title) {
+        newValues.title = e.target.value
+      } else if (filterState[idx].value === DETAIL_FILTER.author) {
+        newValues.author = e.target.value
+      } else if (filterState[idx].value === DETAIL_FILTER.publisher) {
+        newValues.publisher = e.target.value
+      }
+      setValues(newValues)
+    },
+    [values, filterState],
+  )
+
+  console.log('values: ', values)
 
   const dropdown = filterState.map((item, idx) => (
     <Dropdown key={idx}>
@@ -86,7 +112,10 @@ const Search = () => {
           </DropdownListWrap>
         )}
       </Filter>
-      <DetailInput placeholder="검색어 입력" />
+      <DetailInput
+        placeholder="검색어 입력"
+        onChange={e => onDetailHandler(e, idx)}
+      />
       {idx !== 0 ? (
         <DelIcon style={delIconStyle} />
       ) : (
@@ -137,7 +166,7 @@ const Search = () => {
                 <ResetButton onClick={onResetHandler}>초기화</ResetButton>
                 <SearchButton
                   onClick={() => {
-                    searchHandler()
+                    detailSearchHandler()
                   }}
                 >
                   검색하기

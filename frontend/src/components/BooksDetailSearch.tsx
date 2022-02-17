@@ -11,98 +11,122 @@ import COLOR_PALETTE from 'styles/colors'
 import BooksNone from './BooksNone'
 import { setPage } from 'redux/actions/searchAction'
 
-const Books = () => {
+const BooksDetailSearch = () => {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
   const [selectedBooks, setSelectedBooks] = useState<number[]>([])
   const search = useSelector((state: RootState) => state.search)
-  const { query, title, author, publisher, page, isDetail } = search
+  const { title, author, publisher, page, isDetail } = search
 
-  const { isLoading, error, data } = useQuery(['books', query], () =>
-    fetchBooksInfo(search),
+  const { isLoading, error, data } = useQuery(
+    ['booksDetail', title, author, publisher],
+    () => fetchBooksInfo(search),
   )
+
+  const booksData = data?.elements
+    ? data.elements[0].elements[0].elements
+    : data
 
   if (error) {
     alert('데이터 불러오기 실패')
     return <BooksNone />
-  } else if (data?.display === 0) {
+  } else if (booksData && booksData[6].elements[0].text === '0') {
     return <BooksNone />
   }
 
-  const booksList = data?.items.map((item: any, id: number) => {
-    if (!selectedBooks.includes(id)) {
-      return (
-        <BookInfos key={id}>
-          <BookImg src={item.image} alt="book"></BookImg>
-          <BookTitle>
-            {item.title.replace(/<b>|<\/b>/g, '')}
-            <BookAuthor>{item.author.replace(/<b>|<\/b>/g, '')}</BookAuthor>
-          </BookTitle>
-          <BookPrice>{parseInt(item.price).toLocaleString()}원</BookPrice>
-          <BuyButton href={item.link} target="_blank">
-            구매하기
-          </BuyButton>
-          <DetailButton
-            onClick={() => setSelectedBooks([...selectedBooks, id])}
-          >
-            상세보기 <ArrowDownIcon />
-          </DetailButton>
-        </BookInfos>
-      )
-    } else {
-      return (
-        <BookDetailInfos key={id}>
-          <BookDetailImg src={item.image} alt="book"></BookDetailImg>
-          <BookDetailDescription>
-            <BookDetailTitle>
-              {item.title.replace(/<b>|<\/b>/g, '')}
-              <BookDetailAuthor>
-                {item.author.replace(/<b>|<\/b>/g, '')}
-              </BookDetailAuthor>
-            </BookDetailTitle>
-            <BookIntroduce>책 소개</BookIntroduce>
-            <BookSummary>
-              {item.description.replace(/<b>|<\/b>/g, '')}
-            </BookSummary>
-          </BookDetailDescription>
-          <BookEtcInfo>
-            <DetailDetailButton
-              onClick={() => {
-                const newSelected = [...selectedBooks]
-                const selectedIdx: number = newSelected.indexOf(id)
-                newSelected.splice(selectedIdx, 1)
-                setSelectedBooks(newSelected)
-              }}
+  const booksList = booksData
+    ?.filter((item: any) => item.name === 'item')
+    .map((item: any, id: number) => {
+      if (!selectedBooks.includes(id)) {
+        return (
+          <BookInfos key={id}>
+            <BookImg
+              src={item.elements[2].elements[0].text}
+              alt="book"
+            ></BookImg>
+            <BookTitle>
+              {item.elements[0].elements[0].text.replace(/<b>|<\/b>/g, '')}
+              <BookAuthor>
+                {item.elements[3].elements[0].text.replace(/<b>|<\/b>/g, '')}
+              </BookAuthor>
+            </BookTitle>
+            <BookPrice>
+              {parseInt(item.elements[4].elements[0].text).toLocaleString()}원
+            </BookPrice>
+            <BuyButton href={item.link} target="_blank">
+              구매하기
+            </BuyButton>
+            <DetailButton
+              onClick={() => setSelectedBooks([...selectedBooks, id])}
             >
               상세보기 <ArrowDownIcon />
-            </DetailDetailButton>
-            <DetailPrice>
-              원가{' '}
-              <DetailPriceSpan>
-                {parseInt(item.price).toLocaleString()}
-              </DetailPriceSpan>
-            </DetailPrice>
-            <DetailDiscount>
-              할인가{' '}
-              <DetailDiscountSpan>
-                {parseInt(item.discount).toLocaleString()}
-              </DetailDiscountSpan>
-            </DetailDiscount>
-            <DetailBuyButton href={item.link} target="_blank">
-              구매하기
-            </DetailBuyButton>
-          </BookEtcInfo>
-        </BookDetailInfos>
-      )
-    }
-  })
+            </DetailButton>
+          </BookInfos>
+        )
+      } else {
+        return (
+          <BookDetailInfos key={id}>
+            <BookDetailImg
+              src={item.elements[2].elements[0].text}
+              alt="book"
+            ></BookDetailImg>
+            <BookDetailDescription>
+              <BookDetailTitle>
+                {item.elements[0].elements[0].text.replace(/<b>|<\/b>/g, '')}
+                <BookDetailAuthor>
+                  {item.elements[3].elements[0].text.replace(/<b>|<\/b>/g, '')}
+                </BookDetailAuthor>
+              </BookDetailTitle>
+              <BookIntroduce>책 소개</BookIntroduce>
+              <BookSummary>
+                {item.elements[9].elements[0].text.replace(/<b>|<\/b>/g, '')}
+              </BookSummary>
+            </BookDetailDescription>
+            <BookEtcInfo>
+              <DetailDetailButton
+                onClick={() => {
+                  const newSelected = [...selectedBooks]
+                  const selectedIdx: number = newSelected.indexOf(id)
+                  newSelected.splice(selectedIdx, 1)
+                  setSelectedBooks(newSelected)
+                }}
+              >
+                상세보기 <ArrowDownIcon />
+              </DetailDetailButton>
+              <DetailPrice>
+                원가{' '}
+                <DetailPriceSpan>
+                  {parseInt(item.elements[4].elements[0].text).toLocaleString()}
+                </DetailPriceSpan>
+              </DetailPrice>
+              <DetailDiscount>
+                할인가{' '}
+                <DetailDiscountSpan>
+                  {parseInt(item.elements[5].elements[0].text).toLocaleString()}
+                </DetailDiscountSpan>
+              </DetailDiscount>
+              <DetailBuyButton
+                href={item.elements[1].elements[0].text}
+                target="_blank"
+              >
+                구매하기
+              </DetailBuyButton>
+            </BookEtcInfo>
+          </BookDetailInfos>
+        )
+      }
+    })
 
   return (
     <BooksWrap>
       <ResultWrap>
         <ResultTitle>도서 검색 결과</ResultTitle>
         <ResultCountSpan>
-          총 <ResultCount>{data ? data.total : 0}</ResultCount>건
+          총{' '}
+          <ResultCount>
+            {booksData ? booksData[4].elements[0].text : 0}
+          </ResultCount>
+          건
         </ResultCountSpan>
       </ResultWrap>
 
@@ -113,7 +137,7 @@ const Books = () => {
           <BookInfosWrap>{booksList}</BookInfosWrap>
           <Pagination>
             <ArrowLeftIcon style={paginationArrowStyle} />
-            {Math.ceil(data.total / 10) > 10 ? (
+            {Math.ceil(booksData[4].elements[0].text / 10) > 10 ? (
               Array(10)
                 .fill(0)
                 .map((item, idx) => (
@@ -132,7 +156,7 @@ const Books = () => {
   )
 }
 
-export default Books
+export default BooksDetailSearch
 
 /* ****************************************************************
   Books

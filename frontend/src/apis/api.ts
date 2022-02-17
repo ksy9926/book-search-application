@@ -1,15 +1,11 @@
 import axios from 'axios'
+import { SearchState } from 'types/types'
 
-export const fetchBooksInfo = async (
-  query: string,
-  // title: string,
-  // author: string,
-  // publisher: string,
-) => {
-  // 받아오는 res.data의 type이 axios.get<> 안에 들어감.
-  const res = await axios.get<any>(
-    `http://localhost:8080?query=${query}`,
-    // `http://localhost:8080?query=${query}&d_titl=${title}&d_auth=${author}&d_publ=${publisher}`,
-  )
+export const fetchBooksInfo = async (search: SearchState) => {
+  const { query, title, author, publisher, page, isDetail } = search
+  const url = isDetail
+    ? `http://localhost:8080/detail?title=${title}&author=${author}&publisher=${publisher}`
+    : `http://localhost:8080?query=${search.query}`
+  const res = await axios.get<any>(url)
   return res.data
 }

@@ -5,7 +5,11 @@ export type SearchAction =
   | ReturnType<typeof setPage>
 
 export type SearchState = {
-  searchValue: string
-  searchState: boolean
+  searchState?: boolean
+  query: string
+  title: string
+  author: string
+  publisher: string
   page: number
+  isDetail: boolean
 }
