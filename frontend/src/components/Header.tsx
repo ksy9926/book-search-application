@@ -17,7 +17,7 @@ export default Header
 /* ****************************************************************
   Header
 
-[Header Component Size]
+[Header Info]
 - Header Width : 100%
 - Header Inner Width : 1130px
 - Header Height : 80px

@@ -156,8 +156,8 @@ export default Search
 /* ****************************************************************
   Search
 
-[Search Component Size]
-- Search Width : 1130px
+[Search Info]
+- Description : 검색 및 상세검색을 할 수 있는 컴포넌트
 *******************************************************************/
 
 const SearchWrap = styled.section`

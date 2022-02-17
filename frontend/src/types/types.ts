@@ -1,8 +1,8 @@
-import { setSearchValue } from "redux/actions/searchAction";
+import { setSearchValue } from 'redux/actions/searchAction'
 
 export type SearchAction = ReturnType<typeof setSearchValue>
 
 export type SearchState = {
-  searchValue: string;
-  searchState: boolean;
-};
+  searchValue: string
+  searchState: boolean
+}
