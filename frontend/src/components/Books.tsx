@@ -1,17 +1,21 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/reducers'
 import { ReactComponent as ArrowDownIcon } from 'assets/icons/arrowDown.svg'
+import { ReactComponent as ArrowLeftIcon } from 'assets/icons/arrowLeft.svg'
+import { ReactComponent as ArrowRightIcon } from 'assets/icons/arrowRight.svg'
 import { fetchBooksInfo } from 'apis/api'
-import styled from 'styled-components'
+import styled, { CSSProperties } from 'styled-components'
 import COLOR_PALETTE from 'styles/colors'
 import BooksNone from './BooksNone'
+import { setPage } from 'redux/actions/searchAction'
 
 const Books = () => {
   const queryClient = useQueryClient()
+  const dispatch = useDispatch()
   const [selectedBooks, setSelectedBooks] = useState<number[]>([])
-  const { searchValue } = useSelector((state: RootState) => state.search)
+  const { searchValue, page } = useSelector((state: RootState) => state.search)
 
   const { isLoading, error, data } = useQuery(['books', searchValue], () =>
     fetchBooksInfo(searchValue),
@@ -25,6 +29,7 @@ const Books = () => {
   }
 
   console.log('data: ', data)
+  console.log('page: ', page)
 
   const booksList = data?.items.map((item: any, id: number) => {
     if (!selectedBooks.includes(id)) {
@@ -106,7 +111,24 @@ const Books = () => {
       {isLoading ? (
         <div>네이버 책 검색의 데이터를 불러오고 있습니다 ...</div>
       ) : (
-        <BookInfosWrap>{booksList}</BookInfosWrap>
+        <>
+          <BookInfosWrap>{booksList}</BookInfosWrap>
+          <Pagination>
+            <ArrowLeftIcon style={paginationArrowStyle} />
+            {Math.ceil(data.total / 10) > 10 ? (
+              Array(10)
+                .fill(0)
+                .map((item, idx) => (
+                  <Page key={idx} onClick={() => dispatch(setPage(idx + 1))}>
+                    {idx + 1}
+                  </Page>
+                ))
+            ) : (
+              <></>
+            )}
+            <ArrowRightIcon style={paginationArrowStyle} />
+          </Pagination>
+        </>
       )}
     </BooksWrap>
   )
@@ -291,3 +313,29 @@ const DetailBuyButton = styled.a`
   color: ${COLOR_PALETTE.WHITE};
   cursor: pointer;
 `
+
+const Pagination = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin: 56px 0;
+`
+
+const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  font-size: 14px;
+  corlor: ${COLOR_PALETTE.GRAY300};
+  cursor: pointer;
+`
+
+const paginationArrowStyle: CSSProperties = {
+  cursor: 'pointer',
+}
