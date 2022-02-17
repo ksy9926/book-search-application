@@ -34,6 +34,9 @@ const BooksDetailSearch = () => {
     return <BooksNone />
   }
 
+  console.log(booksData)
+  // return <div></div>
+
   const booksList = booksData
     ?.filter((item: any) => item.name === 'item')
     .map((item: any, id: number) => {
@@ -95,16 +98,20 @@ const BooksDetailSearch = () => {
               </DetailDetailButton>
               <DetailPrice>
                 원가{' '}
-                <DetailPriceSpan>
+                <DetailPriceSpan isDiscount={item.elements[5].elements}>
                   {parseInt(item.elements[4].elements[0].text).toLocaleString()}
                 </DetailPriceSpan>
               </DetailPrice>
-              <DetailDiscount>
-                할인가{' '}
-                <DetailDiscountSpan>
-                  {parseInt(item.elements[5].elements[0].text).toLocaleString()}
-                </DetailDiscountSpan>
-              </DetailDiscount>
+              {item.elements[5].elements && (
+                <DetailDiscount>
+                  할인가{' '}
+                  <DetailDiscountSpan>
+                    {parseInt(
+                      item.elements[5].elements[0].text,
+                    ).toLocaleString()}
+                  </DetailDiscountSpan>
+                </DetailDiscount>
+              )}
               <DetailBuyButton
                 href={item.elements[1].elements[0].text}
                 target="_blank"
@@ -290,9 +297,9 @@ const DetailPrice = styled.div`
   color: ${COLOR_PALETTE.GRAY300};
 `
 
-const DetailPriceSpan = styled.span`
+const DetailPriceSpan = styled.span<{ isDiscount: boolean }>`
   margin-left: 8px;
-  text-decoration: line-through;
+  text-decoration: ${props => props.isDiscount && 'line-through'};
   font-size: 18px;
   color: ${COLOR_PALETTE.GRAY800};
 `

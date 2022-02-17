@@ -30,6 +30,7 @@ const Search = () => {
     if (values.query.trim() !== '') {
       dispatch(setSearchValue({ ...values, isDetail: false }))
       setDetailState(false)
+      onResetHandler()
     } else {
       alert('검색어가 비어있거나 공백입니다!')
     }
@@ -62,12 +63,10 @@ const Search = () => {
     setFilterState([{ value: DETAIL_FILTER.title, isClosed: true }])
   }, [values])
 
-  const filterChecker = (idx: number) => {}
-
   const onDetailHandler = useCallback(
     (e, idx: number) => {
       const newValues = { ...values }
-      console.log(filterState[idx].value)
+
       if (filterState[idx].value === DETAIL_FILTER.title) {
         newValues.title = e.target.value
       } else if (filterState[idx].value === DETAIL_FILTER.author) {
@@ -79,8 +78,6 @@ const Search = () => {
     },
     [values, filterState],
   )
-
-  console.log('values: ', values)
 
   const dropdown = filterState.map((item, idx) => (
     <Dropdown key={idx}>
@@ -117,7 +114,7 @@ const Search = () => {
         onChange={e => onDetailHandler(e, idx)}
       />
       {idx !== 0 ? (
-        <DelIcon style={delIconStyle} />
+        <DelIcon style={delIconStyle} onClick={() => {}} />
       ) : (
         <div style={{ width: '32px' }} />
       )}
@@ -362,4 +359,5 @@ const plusIconStyle: CSSProperties = {
 
 const delIconStyle: CSSProperties = {
   marginLeft: '8px',
+  cursor: 'pointer',
 }

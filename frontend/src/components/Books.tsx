@@ -78,16 +78,18 @@ const Books = () => {
             </DetailDetailButton>
             <DetailPrice>
               원가{' '}
-              <DetailPriceSpan>
+              <DetailPriceSpan isDiscount={item.discount}>
                 {parseInt(item.price).toLocaleString()}
               </DetailPriceSpan>
             </DetailPrice>
-            <DetailDiscount>
-              할인가{' '}
-              <DetailDiscountSpan>
-                {parseInt(item.discount).toLocaleString()}
-              </DetailDiscountSpan>
-            </DetailDiscount>
+            {item.discount && (
+              <DetailDiscount>
+                할인가{' '}
+                <DetailDiscountSpan>
+                  {parseInt(item.discount).toLocaleString()}
+                </DetailDiscountSpan>
+              </DetailDiscount>
+            )}
             <DetailBuyButton href={item.link} target="_blank">
               구매하기
             </DetailBuyButton>
@@ -266,9 +268,9 @@ const DetailPrice = styled.div`
   color: ${COLOR_PALETTE.GRAY300};
 `
 
-const DetailPriceSpan = styled.span`
+const DetailPriceSpan = styled.span<{ isDiscount: boolean }>`
   margin-left: 8px;
-  text-decoration: line-through;
+  text-decoration: ${props => props.isDiscount && 'line-through'};
   font-size: 18px;
   color: ${COLOR_PALETTE.GRAY800};
 `
