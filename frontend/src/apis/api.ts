@@ -8,6 +8,5 @@ export const fetchBooksInfo = async (query: string) => {
       'X-Naver-Client-Secret': 'R1SgcgwrFp',
     },
   });
-  console.log('res', res)
-  return res
+  return res.data
 };
