@@ -37,9 +37,17 @@ const Search = () => {
   }, [values])
 
   const detailSearchHandler = useCallback(async () => {
-    dispatch(setSearchValue({ ...values, isDetail: true }))
-    setDetailState(false)
-    onResetHandler()
+    if (
+      values.title.trim() !== '' ||
+      values.author.trim() !== '' ||
+      values.publisher.trim() !== ''
+    ) {
+      dispatch(setSearchValue({ ...values, isDetail: true }))
+      setDetailState(false)
+      onResetHandler()
+    } else {
+      alert('검색어가 비어있거나 공백입니다!')
+    }
   }, [values])
 
   const onFocusHandler = useCallback((): void => {

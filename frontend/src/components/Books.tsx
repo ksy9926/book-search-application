@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/reducers'
@@ -21,6 +21,10 @@ const Books = () => {
   const { isLoading, error, data } = useQuery(['books', query], () =>
     fetchBooksInfo(search),
   )
+
+  useEffect(() => {
+    setSelectedBooks([])
+  }, [query])
 
   if (error) {
     alert('데이터 불러오기 실패')

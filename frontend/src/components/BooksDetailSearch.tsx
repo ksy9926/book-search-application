@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/reducers'
@@ -22,6 +22,10 @@ const BooksDetailSearch = () => {
     ['booksDetail', title, author, publisher],
     () => fetchBooksInfo(search),
   )
+
+  useEffect(() => {
+    setSelectedBooks([])
+  }, [title, author, publisher])
 
   const booksData = data?.elements
     ? data.elements[0].elements[0].elements
