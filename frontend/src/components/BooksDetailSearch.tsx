@@ -34,9 +34,6 @@ const BooksDetailSearch = () => {
     return <BooksNone />
   }
 
-  console.log(booksData)
-  // return <div></div>
-
   const booksList = booksData
     ?.filter((item: any) => item.name === 'item')
     .map((item: any, id: number) => {
@@ -44,7 +41,9 @@ const BooksDetailSearch = () => {
         return (
           <BookInfos key={id}>
             <BookImg
-              src={item.elements[2].elements[0].text}
+              src={
+                item.elements[2].elements && item.elements[2].elements[0].text
+              }
               alt="book"
             ></BookImg>
             <BookTitle>
@@ -148,7 +147,11 @@ const BooksDetailSearch = () => {
               Array(10)
                 .fill(0)
                 .map((item, idx) => (
-                  <Page key={idx} onClick={() => dispatch(setPage(idx + 1))}>
+                  <Page
+                    current={idx + 1 === page}
+                    key={idx}
+                    onClick={() => dispatch(setPage(idx + 1))}
+                  >
                     {idx + 1}
                   </Page>
                 ))
@@ -351,17 +354,19 @@ const Pagination = styled.div`
   margin: 56px 0;
 `
 
-const Page = styled.div`
+const Page = styled.div<{ current: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 24px;
   height: 24px;
   box-sizing: border-box;
-  border: 1px solid #dadada;
+  border: ${props => !props.current && '1px solid #dadada'};
   border-radius: 4px;
+  background: ${props => props.current && COLOR_PALETTE.BLUE900};
   font-size: 14px;
-  corlor: ${COLOR_PALETTE.GRAY300};
+  color: ${props =>
+    props.current ? COLOR_PALETTE.WHITE : COLOR_PALETTE.GRAY300};
   cursor: pointer;
 `
 

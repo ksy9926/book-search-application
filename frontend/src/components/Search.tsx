@@ -21,7 +21,7 @@ const Search = () => {
   })
   const [detailState, setDetailState] = useState(false)
   const [filterState, setFilterState] = useState([
-    { value: DETAIL_FILTER.title, isClosed: true },
+    { filter: DETAIL_FILTER.title, isClosed: true, value: '' },
   ])
   const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
@@ -38,6 +38,8 @@ const Search = () => {
 
   const detailSearchHandler = useCallback(async () => {
     dispatch(setSearchValue({ ...values, isDetail: true }))
+    setDetailState(false)
+    onResetHandler()
   }, [values])
 
   const onFocusHandler = useCallback((): void => {
@@ -60,24 +62,41 @@ const Search = () => {
       author: '',
       publisher: '',
     })
-    setFilterState([{ value: DETAIL_FILTER.title, isClosed: true }])
+    setFilterState([{ filter: DETAIL_FILTER.title, isClosed: true, value: '' }])
   }, [values])
 
   const onDetailHandler = useCallback(
     (e, idx: number) => {
       const newValues = { ...values }
 
-      if (filterState[idx].value === DETAIL_FILTER.title) {
+      if (filterState[idx].filter === DETAIL_FILTER.title) {
         newValues.title = e.target.value
-      } else if (filterState[idx].value === DETAIL_FILTER.author) {
+      } else if (filterState[idx].filter === DETAIL_FILTER.author) {
         newValues.author = e.target.value
-      } else if (filterState[idx].value === DETAIL_FILTER.publisher) {
+      } else if (filterState[idx].filter === DETAIL_FILTER.publisher) {
         newValues.publisher = e.target.value
       }
       setValues(newValues)
     },
     [values, filterState],
   )
+
+  const onDeleteHanlder = (idx: number, item: any) => {
+    const newFilterState = [...filterState]
+    const newValues = { ...values }
+
+    newFilterState.splice(idx, 1)
+
+    if (item.filter === DETAIL_FILTER.title) {
+      newValues.title = ''
+    } else if (item.filter === DETAIL_FILTER.author) {
+      newValues.author = ''
+    } else if (item.filter === DETAIL_FILTER.publisher) {
+      newValues.publisher = ''
+    }
+    setValues(newValues)
+    setFilterState(newFilterState)
+  }
 
   const dropdown = filterState.map((item, idx) => (
     <Dropdown key={idx}>
@@ -88,18 +107,18 @@ const Search = () => {
           setFilterState(newState)
         }}
       >
-        {item.value}
+        {item.filter}
         <ArrowDownIcon style={arrowDownIconStyle} />
         {!item.isClosed && (
           <DropdownListWrap>
             {Object.values(DETAIL_FILTER)
-              .filter(v => v !== item.value)
+              .filter(v => v !== item.filter)
               .map(v => (
                 <DropdownList
                   key={v}
                   onClick={() => {
                     const newState = [...filterState]
-                    newState[idx].value = v
+                    newState[idx].filter = v
                     setFilterState(newState)
                   }}
                 >
@@ -114,7 +133,12 @@ const Search = () => {
         onChange={e => onDetailHandler(e, idx)}
       />
       {idx !== 0 ? (
-        <DelIcon style={delIconStyle} onClick={() => {}} />
+        <DelIcon
+          style={delIconStyle}
+          onClick={() => {
+            onDeleteHanlder(idx, item)
+          }}
+        />
       ) : (
         <div style={{ width: '32px' }} />
       )}
@@ -151,7 +175,11 @@ const Search = () => {
                   onClick={() =>
                     setFilterState([
                       ...filterState,
-                      { value: DETAIL_FILTER.title, isClosed: true },
+                      {
+                        filter: DETAIL_FILTER.title,
+                        isClosed: true,
+                        value: '',
+                      },
                     ])
                   }
                 >
